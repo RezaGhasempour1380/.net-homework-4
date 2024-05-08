@@ -52,3 +52,29 @@
     <input type="email" name="newCustomerEmail" placeholder="Email" />
     <button type="submit">Add Customer</button>
 </form>
+
+<h3>Orders</h3>
+
+@if (Model.Order.Any())
+{
+    foreach (var order in Model.Order)
+    {
+        <form method="post" asp-page-handler="UpdateOrder" asp-route-id="@order.id">
+            <input type="text" name="orderNumber" value="@order.Number" />
+            <input type="text" name="orderState" value="@order.State" />
+            <input type="date" name="orderDate" value="@order.OrderDate.ToString("yyyy-MM-dd")" />
+            <button type="submit">Update</button>
+        </form>
+        <form method="post" asp-page-handler="DeleteOrder" asp-route-id="@order.id">
+            <button type="submit">Delete</button>
+        </form>
+    }
+}
+
+<form method="post" asp-page-handler="AddOrder">
+    <input type="text" name="orderNumber" placeholder="Order Number" />
+    <input type="text" name="orderState" placeholder="State" />
+    <input type="date" name="orderDate" placeholder="Order Date" />
+    <input type="text" name="customerId" placeholder="Customer ID" />
+    <button type="submit">Add Order</button>
+</form>
