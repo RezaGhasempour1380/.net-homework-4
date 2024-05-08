@@ -21,6 +21,8 @@ builder.Services.AddRazorPages();
 // Add controllers with NewtonsoftJson configuration
 builder.Services.AddControllers();
 
+builder.Services.AddSingleton<TokenService>();
+
 builder.Logging.AddConsole();
 
 // Add CORS (if needed for your client applications)

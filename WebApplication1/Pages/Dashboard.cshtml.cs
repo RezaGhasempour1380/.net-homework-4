@@ -22,6 +22,8 @@ public class DashboardModel : PageModel
     private readonly AppDbContext _context;
     private readonly ILogger<DashboardModel> _logger;
 
+    private readonly TokenService _tokenService;
+
     public List<Product> Products { get; set; } = new List<Product>();
 
     public List<Customer> Customers { get; set; } = new List<Customer>();
@@ -32,10 +34,11 @@ public class DashboardModel : PageModel
 
     
 
-    public DashboardModel(AppDbContext context, ILogger<DashboardModel> logger)
+    public DashboardModel(AppDbContext context, ILogger<DashboardModel> logger, TokenService tokenService)
     {
         _context = context;
         _logger = logger;
+        _tokenService = tokenService;
     }
 
     public async Task OnGet()
@@ -75,6 +78,13 @@ public class DashboardModel : PageModel
 
     public async Task<IActionResult> OnPostDeleteProduct(int id)
     {
+        var token = HttpContext.Request.Cookies["AuthToken"];
+        if (!_tokenService.IsTokenValid(token))
+        {
+        return RedirectToPage("/Login");
+        }
+        else{
+
         var product = await _context.Product.FindAsync(id);
         if (product != null)
         {
@@ -82,6 +92,7 @@ public class DashboardModel : PageModel
             await _context.SaveChangesAsync();
         }
         return RedirectToPage();
+        }
     }
 
     public async Task<IActionResult> OnPostAddCustomer()
@@ -115,6 +126,12 @@ public class DashboardModel : PageModel
 
     public async Task<IActionResult> OnPostDeleteCustomer(int id)
     {
+        var token = HttpContext.Request.Cookies["AuthToken"];
+        if (!_tokenService.IsTokenValid(token))
+        {
+        return RedirectToPage("/Login");
+        }
+        else{
         var customer = await _context.Customer.FindAsync(id);
         if (customer != null)
         {
@@ -122,6 +139,7 @@ public class DashboardModel : PageModel
             await _context.SaveChangesAsync();
         }
         return RedirectToPage();
+        }
     }
 
         public async Task<IActionResult> OnPostAddOrder()
@@ -156,6 +174,12 @@ public class DashboardModel : PageModel
 
     public async Task<IActionResult> OnPostDeleteOrder(int id)
     {
+        var token = HttpContext.Request.Cookies["AuthToken"];
+        if (!_tokenService.IsTokenValid(token))
+        {
+        return RedirectToPage("/Login");
+        }
+        else{
         var order = await _context.Orders.FindAsync(id);
         if (order != null)
         {
@@ -163,6 +187,7 @@ public class DashboardModel : PageModel
             await _context.SaveChangesAsync();
         }
         return RedirectToPage();
+        }
     }
 
     public async Task<IActionResult> OnPostAddOrderDetail()
@@ -196,6 +221,12 @@ public class DashboardModel : PageModel
 
     public async Task<IActionResult> OnPostDeleteOrderDetail(int id)
     {
+        var token = HttpContext.Request.Cookies["AuthToken"];
+        if (!_tokenService.IsTokenValid(token))
+        {
+        return RedirectToPage("/Login");
+        }
+        else{
         var orderDetail = await _context.OrderDetails.FindAsync(id);
         if (orderDetail != null)
         {
@@ -203,5 +234,6 @@ public class DashboardModel : PageModel
             await _context.SaveChangesAsync();
         }
         return RedirectToPage();
+        }
     }
 }

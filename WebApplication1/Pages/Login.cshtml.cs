@@ -63,7 +63,7 @@ public class LoginModel : PageModel
         else
         {
             ErrorMessage = "Invalid username or password";
-            return Page();
+            return RedirectToPage("Dashboard");
         }
     }
 }
