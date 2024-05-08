@@ -114,7 +114,6 @@ D:\Users\user\Downloads\homework\6th sem\.net lab\homework 3\WebApplication1\obj
 D:\Users\user\Downloads\homework\6th sem\.net lab\homework 3\WebApplication1\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.WebApplication1.props
 D:\Users\user\Downloads\homework\6th sem\.net lab\homework 3\WebApplication1\obj\Debug\net8.0\staticwebassets.pack.json
 D:\Users\user\Downloads\homework\6th sem\.net lab\homework 3\WebApplication1\obj\Debug\net8.0\scopedcss\bundle\WebApplication1.styles.css
-D:\Users\user\Downloads\homework\6th sem\.net lab\homework 3\WebApplication1\obj\Debug\net8.0\WebApplication1.csproj.CopyComplete
 D:\Users\user\Downloads\homework\6th sem\.net lab\homework 3\WebApplication1\obj\Debug\net8.0\WebApplication1.dll
 D:\Users\user\Downloads\homework\6th sem\.net lab\homework 3\WebApplication1\obj\Debug\net8.0\refint\WebApplication1.dll
 D:\Users\user\Downloads\homework\6th sem\.net lab\homework 3\WebApplication1\obj\Debug\net8.0\WebApplication1.pdb
@@ -136,3 +135,4 @@ D:\Users\user\Downloads\homework\6th sem\.net lab\homework 3\WebApplication1\bin
 D:\Users\user\Downloads\homework\6th sem\.net lab\homework 3\WebApplication1\bin\Debug\net8.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 D:\Users\user\Downloads\homework\6th sem\.net lab\homework 3\WebApplication1\bin\Debug\net8.0\Newtonsoft.Json.Bson.dll
 D:\Users\user\Downloads\homework\6th sem\.net lab\homework 3\WebApplication1\obj\Debug\net8.0\WebApplication1.sourcelink.json
+D:\Users\user\Downloads\homework\6th sem\.net lab\homework 3\WebApplication1\obj\Debug\net8.0\WebAppli.7D14BD69.Up2Date

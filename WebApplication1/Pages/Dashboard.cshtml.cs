@@ -16,12 +16,21 @@ using System.Text.Json;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 [ValidateAntiForgeryToken]
+
 public class DashboardModel : PageModel
 {
     private readonly AppDbContext _context;
     private readonly ILogger<DashboardModel> _logger;
 
     public List<Product> Products { get; set; } = new List<Product>();
+
+    public List<Customer> Customers { get; set; } = new List<Customer>();
+
+    public List<OrderDetails> OrderDetail { get; set; } = new List<OrderDetails>();
+
+    public List<Orders> Order { get; set; } = new List<Orders>();
+
+    
 
     public DashboardModel(AppDbContext context, ILogger<DashboardModel> logger)
     {
@@ -32,6 +41,9 @@ public class DashboardModel : PageModel
     public async Task OnGet()
     {
         Products = await _context.Product.ToListAsync();
+        Customers = await _context.Customer.ToListAsync();
+        OrderDetail = await _context.OrderDetails.ToListAsync();
+        Order = await _context.Orders.ToListAsync();
     }
 
     public async Task<IActionResult> OnPostAddProduct()
@@ -67,6 +79,46 @@ public class DashboardModel : PageModel
         if (product != null)
         {
             _context.Product.Remove(product);
+            await _context.SaveChangesAsync();
+        }
+        return RedirectToPage();
+    }
+
+    public async Task<IActionResult> OnPostAddCustomer()
+    {
+        var customer = new Customer
+        {
+            Name = Request.Form["newCustomerName"],
+            Surname = Request.Form["newCustomerSurname"],
+            Email = Request.Form["newCustomerEmail"]
+        };
+
+        _context.Customer.Add(customer);
+        await _context.SaveChangesAsync();
+        return RedirectToPage();
+    }
+
+    public async Task<IActionResult> OnPostUpdateCustomer(int id)
+    {
+        var customer = await _context.Customer.FindAsync(id);
+        if (customer != null)
+        {
+            customer.Name = Request.Form["customerName"];
+            customer.Surname = Request.Form["customerSurname"];
+            customer.Email = Request.Form["customerEmail"];
+            await _context.SaveChangesAsync();
+            return RedirectToPage();
+        }
+
+        return RedirectToPage(); // Optionally add an error message or handling
+    }
+
+    public async Task<IActionResult> OnPostDeleteCustomer(int id)
+    {
+        var customer = await _context.Customer.FindAsync(id);
+        if (customer != null)
+        {
+            _context.Customer.Remove(customer);
             await _context.SaveChangesAsync();
         }
         return RedirectToPage();

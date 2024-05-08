@@ -5,6 +5,7 @@
 <head><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <h2>Dashboard</h2>
+<h3>Products</h3>
 
 @if (Model.Products.Any())
 {
@@ -25,4 +26,29 @@
     <input type="text" name="newProductName" placeholder="Name" />
     <input type="number" name="newProductPrice" placeholder="Price" />
     <button type="submit">Add Product</button>
+</form>
+
+<h3>Customers</h3>
+
+@if (Model.Customers.Any())
+{
+    foreach (var customer in Model.Customers)
+    {
+        <form method="post" asp-page-handler="UpdateCustomer" asp-route-id="@customer.id">
+            <input type="text" name="customerName" value="@customer.Name" />
+            <input type="text" name="customerSurname" value="@customer.Surname" />
+            <input type="email" name="customerEmail" value="@customer.Email" />
+            <button type="submit">Update</button>
+        </form>
+        <form method="post" asp-page-handler="DeleteCustomer" asp-route-id="@customer.id">
+            <button type="submit">Delete</button>
+        </form>
+    }
+}
+
+<form method="post" asp-page-handler="AddCustomer">
+    <input type="text" name="newCustomerName" placeholder="Name" />
+    <input type="text" name="newCustomerSurname" placeholder="Surname" />
+    <input type="email" name="newCustomerEmail" placeholder="Email" />
+    <button type="submit">Add Customer</button>
 </form>
