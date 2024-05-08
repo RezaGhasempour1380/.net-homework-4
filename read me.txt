@@ -1,0 +1,11 @@
+the homework is divided in two section a server(web application) and a client(console app)
+1- open cmd in WebApplication1 folder and run command dotnet run and keep the cmd open
+2- open new cmd in ConsoleApp1 folder and run command dotnet run then you will have interactive interface with database
+3- for logging in username is "admin" and password is "admin123"
+4- you cannot delete anything from database if you dont login
+    probable problems:
+    - localhost may be listening in wrong port make sure it is listening http://localhost:5117 you can see the listen port in cmd page for WebApplication1 
+    - if you try to delete some data in database that is foreign keyed you cant you will get internal server error
+5- I have added a few customer and products for you to try and delete they are not foreign keyed so you can delete easliy if you are logged in
+6- for customer try id{3,4,5} for product try id{4,5,6} these samples are just for show casing you can also add your database and delete them
+7- in case you didnt login at first you have to ctrl+c and dotnet run the ConsoleApp1 again

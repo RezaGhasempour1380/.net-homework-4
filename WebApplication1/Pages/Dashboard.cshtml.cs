@@ -19,16 +19,10 @@ using Microsoft.Extensions.Logging;
 public class DashboardModel : PageModel
 {
     private readonly AppDbContext _context;
-     private readonly ILogger<DashboardModel> _logger;
-    public string StatusMessage { get; set; }
-
-    [BindProperty]
-    public Product NewProduct { get; set; } = new Product();
-    [BindProperty]
-    public Product UpdatedProduct { get; set; } = new Product();
+    private readonly ILogger<DashboardModel> _logger;
 
     public List<Product> Products { get; set; } = new List<Product>();
-    
+
     public DashboardModel(AppDbContext context, ILogger<DashboardModel> logger)
     {
         _context = context;
@@ -37,69 +31,44 @@ public class DashboardModel : PageModel
 
     public async Task OnGet()
     {
-       Products = await _context.Product.ToListAsync(); 
+        Products = await _context.Product.ToListAsync();
     }
 
-    public async Task<JsonResult> OnPostAddProduct( NewProductModel newProductModel)
+    public async Task<IActionResult> OnPostAddProduct()
     {
-        if (!ModelState.IsValid)
+        var newProduct = new Product
         {
-            return new JsonResult(new { success = false, message = "Invalid product data" });
-        }
+            Name = Request.Form["newProductName"],
+            Price = Convert.ToDecimal(Request.Form["newProductPrice"])
+        };
 
-        try
-        {
-            var product = new Product 
-            {
-                Name = newProductModel.Name,
-                Price = newProductModel.Price
-            };
-            _context.Product.Add(product);
-            await _context.SaveChangesAsync();
-            return new JsonResult(new { success = true, message = "Product added successfully." });
-        }
-        catch (Exception ex)
-        {
-            return new JsonResult(new { success = false, message = ex.Message });
-        }
+        _context.Product.Add(newProduct);
+        await _context.SaveChangesAsync();
+        return RedirectToPage();
     }
 
-        public async Task<JsonResult> OnPostUpdateProduct(UpdateProductModel model)
-        {
-            if (model == null) {
-                return new JsonResult(new { success = false, message = "Invalid product data" });
-            }
-
-            var product = await _context.Product.FindAsync(model.Id);
-            if (product != null)
-            {
-                product.Name = model.UpdatedProductName;
-                product.Price = model.UpdatedProductPrice;
-                await _context.SaveChangesAsync();
-                return new JsonResult(new { success = true, message = "Product updated successfully." });
-            }
-            else
-            {
-                return new JsonResult(new { success = false, message = "Product not found." });
-            }
-        }
-    
-    public async Task<JsonResult> OnPostDeleteProduct(int id)
+    public async Task<IActionResult> OnPostUpdateProduct(int id)
     {
-        _logger.LogInformation("Attempting to delete product with ID: {ProductId}", id);
         var product = await _context.Product.FindAsync(id);
+        if (product != null)
+        {
+            product.Name = Request.Form["productName"];
+            product.Price = Convert.ToDecimal(Request.Form["productPrice"]);
+            await _context.SaveChangesAsync();
+            return RedirectToPage();
+        }
 
+        return RedirectToPage();
+    }
+
+    public async Task<IActionResult> OnPostDeleteProduct(int id)
+    {
+        var product = await _context.Product.FindAsync(id);
         if (product != null)
         {
             _context.Product.Remove(product);
             await _context.SaveChangesAsync();
-            _logger.LogInformation("Product deleted successfully: {ProductId}", id);
-            return new JsonResult(new { success = true, message = "Product deleted successfully" });
         }
-        else
-        {
-            _logger.LogWarning("Product not found for ID: {ProductId}", id);
-            return new JsonResult(new { success = false, message = "Product not found" });
-        }
+        return RedirectToPage();
     }
 }

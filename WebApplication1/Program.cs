@@ -66,20 +66,27 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
+else
 {
     app.UseExceptionHandler("/Error");
-    // Uncomment if you want to use HTTPS redirection in production
-    // app.UseHttpsRedirection();
+    app.UseHsts();
 }
 
+app.UseHttpsRedirection();
 app.UseRouting();
 app.UseAuthentication(); // Ensure authentication middleware is used
 app.UseAuthorization();
 app.UseCors("AllowAll");
 
-app.MapRazorPages();
-app.MapControllers();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapRazorPages();
+    endpoints.MapControllers();
+});
 
 Console.WriteLine("Ready to serve requests...");
 
