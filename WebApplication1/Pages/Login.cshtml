@@ -1,0 +1,15 @@
+@page
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model LoginModel
+
+<form method="post">
+    <label for="Username">Username:</label>
+    <input asp-for="Username" class="form-control" />
+    <label for="Password">Password:</label>
+    <input asp-for="Password" type="password" class="form-control" />
+    <button type="submit" class="btn btn-primary">Log In</button>
+    @if (Model.ErrorMessage != null)
+    {
+        <div style="color:red;">@Model.ErrorMessage</div>
+    }
+</form>
