@@ -164,4 +164,44 @@ public class DashboardModel : PageModel
         }
         return RedirectToPage();
     }
+
+    public async Task<IActionResult> OnPostAddOrderDetail()
+    {
+        var orderDetail = new OrderDetails
+        {
+            Productid = int.Parse(Request.Form["productId"]),
+            Amount = int.Parse(Request.Form["amount"]),
+            Orderid = int.Parse(Request.Form["orderId"])
+        };
+
+        _context.OrderDetails.Add(orderDetail);
+        await _context.SaveChangesAsync();
+        return RedirectToPage();
+    }
+
+    public async Task<IActionResult> OnPostUpdateOrderDetail(int id)
+    {
+        var orderDetail = await _context.OrderDetails.FindAsync(id);
+        if (orderDetail != null)
+        {
+            orderDetail.Productid = int.Parse(Request.Form["productId"]);
+            orderDetail.Amount = int.Parse(Request.Form["amount"]);
+            orderDetail.Orderid = int.Parse(Request.Form["orderId"]);
+            await _context.SaveChangesAsync();
+            return RedirectToPage();
+        }
+
+        return RedirectToPage(); // Optionally add an error message or handling
+    }
+
+    public async Task<IActionResult> OnPostDeleteOrderDetail(int id)
+    {
+        var orderDetail = await _context.OrderDetails.FindAsync(id);
+        if (orderDetail != null)
+        {
+            _context.OrderDetails.Remove(orderDetail);
+            await _context.SaveChangesAsync();
+        }
+        return RedirectToPage();
+    }
 }

@@ -78,3 +78,28 @@
     <input type="text" name="customerId" placeholder="Customer ID" />
     <button type="submit">Add Order</button>
 </form>
+
+<h3>orderdetails</h3>
+
+@if (Model.OrderDetail.Any())
+{
+    foreach (var orderDetail in Model.OrderDetail)
+    {
+        <form method="post" asp-page-handler="UpdateOrderDetail" asp-route-id="@orderDetail.id">
+            <input type="number" name="productId" value="@orderDetail.Productid" />
+            <input type="number" name="amount" value="@orderDetail.Amount" />
+            <input type="number" name="orderId" value="@orderDetail.Orderid" />
+            <button type="submit">Update</button>
+        </form>
+        <form method="post" asp-page-handler="DeleteOrderDetail" asp-route-id="@orderDetail.id">
+            <button type="submit">Delete</button>
+        </form>
+    }
+}
+
+<form method="post" asp-page-handler="AddOrderDetail">
+    <input type="number" name="productId" placeholder="Product ID" />
+    <input type="number" name="amount" placeholder="Amount" />
+    <input type="number" name="orderId" placeholder="Order ID" />
+    <button type="submit">Add Order Detail</button>
+</form>
